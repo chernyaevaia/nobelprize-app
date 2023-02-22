@@ -19,24 +19,26 @@ export class RestApiService {
 
   getLaureates = (
     gender?: string,
-    nobelPrizeYear?: number
+    birthContinent?: string,
+    nobelPrizeYear?: number,
+    nobelPrizeCategory?: string
   ): Promise<Laureat[]> => {
-    if (!nobelPrizeYear) {
-      return this.fetchApi(
-        `https://api.nobelprize.org/2.1/laureates?gender=${gender}`
-      )
-        .then((res) => res.laureates)
-        .catch((e) => console.log(e));
-    }
-    if (!gender) {
-      return this.fetchApi(
-        `https://api.nobelprize.org/2.1/laureates?nobelPrizeYear=${nobelPrizeYear}`
-      )
-        .then((res) => res.laureates)
-        .catch((e) => console.log(e));
-    }
+    let obj = {
+      gender,
+      birthContinent,
+      nobelPrizeYear,
+      nobelPrizeCategory,
+    };
+
+    let maybeQueryParams = Object.entries(obj)
+      .filter((kv) => kv[1])
+      .map((kv) => `${kv[0]}=${kv[1]}`)
+      .join("&");
+
+    let queryParams = maybeQueryParams ? "?" + maybeQueryParams : "";
+
     return this.fetchApi(
-      `https://api.nobelprize.org/2.1/laureates?gender=${gender}&nobelPrizeYear=${nobelPrizeYear}`
+      `https://api.nobelprize.org/2.1/laureates${queryParams}`
     )
       .then((res) => res.laureates)
       .catch((e) => console.log(e));
