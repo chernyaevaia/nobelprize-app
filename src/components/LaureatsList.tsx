@@ -1,5 +1,5 @@
 import { LaureatCard } from "./LaureatCard";
-import { Laureat } from "../types";
+import { Laureat } from "../utils/types";
 import styles from "./LaureatsList.module.scss"
 
 export interface LaureatsList {
@@ -7,15 +7,6 @@ export interface LaureatsList {
 }
 
 export function LaureatsCards ({laureats}: LaureatsList) {
-  //const [laureats, setLaureats] = useState<Laureat[]>();
-
-//   const fetchLaureats = useCallback(() => {
-//     restApiService.getLaureates("male", 1975).then((data) => setLaureats(data));
-//   }, [setLaureats]);
-
-//   useEffect(() => {
-//     fetchLaureats();
-//   }, [fetchLaureats]);
 
   return (
     <div className={styles.wrapper}>

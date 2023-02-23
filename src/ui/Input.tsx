@@ -1,4 +1,5 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
+import styles from "./Input.module.scss"
 
 export interface InputProps {
   placeholder?: string;
@@ -20,8 +21,9 @@ export function Input({
   if (type === "text") {
     return (
       <div>
-        <label htmlFor={id}>{label}</label>
+        <label className={styles.labeltext} htmlFor={id}>{label}</label>
         <input
+        className={styles.input}
           id={id}
           value={value}
           onChange={onChange}
@@ -33,8 +35,8 @@ export function Input({
   }
   return (
     <div>
-      <label htmlFor={id}>{label}</label>
-      <input
+      <label className={styles.labeltext} htmlFor={id}>{label}</label>
+      <input className={styles.input}
         id={id}
         value={value}
         onChange={onChange}

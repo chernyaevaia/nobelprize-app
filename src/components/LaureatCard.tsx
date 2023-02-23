@@ -1,4 +1,4 @@
-import { Laureat } from "../types";
+import { Laureat } from "../utils/types";
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
 

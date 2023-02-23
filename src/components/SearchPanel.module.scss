@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.searchBtn {
+    background-color: transparent;
+    color: rgb(66, 66, 67);
+    padding: 10px 26px;
+    border: 1px solid rgb(66, 66, 67);
+    border-radius: 6px;
+    &:hover {
+        color: white;
+        background-color: rgb(66, 66, 67);
+    }
+}
+

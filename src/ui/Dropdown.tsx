@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
-import { Option } from "./types";
+import { Option } from "../utils/types";
+import styles from "./Dropdown.module.scss"
 
 export interface DropdownProps {
   label?: string;
@@ -18,9 +19,9 @@ export function Dropdown({
   value,
 }: DropdownProps) {
   return (
-    <div>
-      <label htmlFor={id}>{label}</label>
-      <select id={id} onChange={onChange}>
+    <div className={styles.wrapper}>
+      <label className={styles.labeltext} htmlFor={id}>{label}</label>
+      <select className={styles.dropdown} id={id} onChange={onChange}>
         {options.map((option) => (
           <option
             key={option.value}
