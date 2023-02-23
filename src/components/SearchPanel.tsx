@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Input } from "../ui/Input";
 import { Dropdown } from "../ui/Dropdown";
 import {
@@ -17,18 +17,27 @@ export function SearchPanel() {
   const [category, setCategoty] = useState("");
   const [awardYear, setAwardYear] = useState("");
   const [birthContinent, setBirthContinent] = useState("");
+  const [disabled, setDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (gender || category || awardYear || birthContinent) {
+      setDisabled(false);
+    }
+  }, [gender, category, awardYear, birthContinent]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDisabled(true);
     restApiService
       .getLaureates(gender, birthContinent, +awardYear, category)
-      .then((data) => setLaureats(data));
+      .then((data) => setLaureats(data))
+      .then(() => setDisabled(false));
   };
 
   return (
     <>
-      <form className={styles.container}onSubmit={handleSubmit}>
-       <div className={styles.wrapper}>
+      <form className={styles.container} onSubmit={handleSubmit}>
+        <div className={styles.wrapper}>
           <Dropdown
             label="Gender"
             options={GENDER_OPTIONS}
@@ -54,8 +63,8 @@ export function SearchPanel() {
             value={birthContinent}
             onChange={(e) => setBirthContinent(e.target.value)}
           />
-       </div>
-        <button className={styles.searchBtn} type="submit">
+        </div>
+        <button disabled={disabled} className={styles.searchBtn} type="submit">
           Search
         </button>
       </form>
