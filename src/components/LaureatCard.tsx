@@ -1,10 +1,9 @@
-import React from "react";
 import { Laureat } from "../types";
 import styles from "./LaureatCard.module.scss";
+import moment from "moment";
 
 export function LaureatCard(laureat: Laureat) {
   return (
-    <>
       <div className={styles.card}>
         <ul>
           <li>
@@ -17,7 +16,7 @@ export function LaureatCard(laureat: Laureat) {
           </li>
           <li>
             <span>Birthdate: </span>
-            {laureat.birth.date}
+            {moment(laureat.birth.date).format("MMMM Do YYYY")}
           </li>
           <li>
             <span>Place of Birth: </span>
@@ -30,7 +29,9 @@ export function LaureatCard(laureat: Laureat) {
           <li>
             <span>Date awarded: </span>
             {laureat.nobelPrizes[0].dateAwarded
-              ? laureat.nobelPrizes[0].dateAwarded
+              ? moment(laureat.nobelPrizes[0].dateAwarded).format(
+                  "MMMM Do YYYY"
+                )
               : laureat.nobelPrizes[0].awardYear}
           </li>
           <li className={styles.motivation}>
@@ -40,8 +41,16 @@ export function LaureatCard(laureat: Laureat) {
             <span>Prize status: </span>
             {laureat.nobelPrizes[0].prizeStatus}
           </li>
+          <li className={styles.linkBtn}>
+            <a
+              className={styles.wikiLink}
+              href={laureat.wikipedia.english}
+              target="_blank"
+            >
+              Open Wikipedia
+            </a>
+          </li>
         </ul>
       </div>
-    </>
   );
 }

@@ -17,6 +17,9 @@ export interface Laureat {
       };
     };
   };
+  wikipedia: {
+    english: string
+  }
   nobelPrizes: [
     {
       awardYear: string;

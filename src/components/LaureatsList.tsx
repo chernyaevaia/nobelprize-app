@@ -26,6 +26,7 @@ export function LaureatsCards ({laureats}: LaureatsList) {
             knownName={laureat.knownName}
             birth={laureat.birth}
             nobelPrizes={laureat.nobelPrizes}
+            wikipedia={laureat.wikipedia}
           />
         ))}
     </div>
