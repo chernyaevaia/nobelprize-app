@@ -20,13 +20,15 @@ export class RestApiService {
   getLaureates = (
     gender?: string,
     birthContinent?: string,
-    nobelPrizeYear?: number,
+    nobelPrizeYear?: string,
     nobelPrizeCategory?: string
   ): Promise<Laureat[]> => {
+    let awardNobelYear = +nobelPrizeYear!;
+
     let obj = {
       gender,
       birthContinent,
-      nobelPrizeYear,
+      awardNobelYear,
       nobelPrizeCategory,
     };
 
