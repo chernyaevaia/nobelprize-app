@@ -1,4 +1,4 @@
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Input } from "../ui/Input";
 import { Dropdown } from "../ui/Dropdown";
 import {
@@ -9,7 +9,13 @@ import {
 import styles from "./SearchPanel.module.scss";
 
 export interface SearchPanelProps {
-  onSubmitClick: FormEventHandler<HTMLFormElement>;
+  onSubmitClick: (
+    e: FormEvent<HTMLFormElement>,
+    gender?: string,
+    birthContinent?: string,
+    awardYear?: string,
+    category?: string
+  ) => void;
 }
 
 export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
@@ -26,7 +32,12 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
   }, [gender, category, awardYear, birthContinent]);
 
   return (
-    <form className={styles.container} onSubmit={onSubmitClick}>
+    <form
+      className={styles.container}
+      onSubmit={(e) =>
+        onSubmitClick(e, gender, category, awardYear, birthContinent)
+      }
+    >
       <div className={styles.wrapper}>
         <Dropdown
           label="Gender"

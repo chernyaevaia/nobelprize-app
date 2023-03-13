@@ -11,9 +11,9 @@ function App() {
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
     gender?: string,
-    birthContinent?: string,
+    category?: string,
     awardYear?: string,
-    category?: string
+    birthContinent?: string,
   ) => {
     e.preventDefault();
     restApiService
