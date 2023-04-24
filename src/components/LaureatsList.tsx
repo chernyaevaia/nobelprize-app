@@ -14,6 +14,7 @@ export function LaureatsCards({ laureats }: LaureatsList) {
           .filter((l) => l.knownName && l.birth.place)
           .map((laureat) => (
             <LaureatCard
+              key={laureat.wikipedia.english}
               gender={laureat.gender}
               knownName={laureat.knownName}
               birth={laureat.birth}
