@@ -8,13 +8,16 @@ import { Laureat } from "./utils/types";
 function App() {
   const [laureats, setLaureats] = useState<Laureat[]>();
   const [isIntroVisible, setIntroVisible] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(true);
     restApiService
       .getLaureates()
       .then((data) =>
         setLaureats(data.sort(() => 0.5 - Math.random()).slice(0, 6))
-      );
+      )
+      .then(() => setIsLoading(false));
   }, []);
 
   const handleSubmit = (
@@ -24,12 +27,14 @@ function App() {
     awardYear?: string,
     birthContinent?: string
   ) => {
+    setIsLoading(true);
     e.preventDefault();
     restApiService
       .getLaureates(gender, birthContinent, awardYear, category)
       .then((data) => {
         setIntroVisible(false);
         setLaureats(data);
+        setIsLoading(false);
       });
   };
 
@@ -46,9 +51,9 @@ function App() {
       {isIntroVisible && (
         <p className="recommendation">You might be interested:</p>
       )}
-      {laureats?.length ? (
-        <LaureatsCards laureats={laureats} />
-      ) : (
+      {isLoading && <div className="loader"></div>}
+      {!isLoading && <LaureatsCards laureats={laureats} />}
+      {laureats?.length && !isLoading && (
         <p className="noResultsMessage">
           Sorry. We couldn't find any matches for your search. <br />
           Please, double check your search for typos or try different filters.
