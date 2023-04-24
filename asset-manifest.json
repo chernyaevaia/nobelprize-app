@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/nobelprize-app/static/css/main.ad37d85f.css",
-    "main.js": "/nobelprize-app/static/js/main.6861ab7c.js",
+    "main.css": "/nobelprize-app/static/css/main.8c6cd38d.css",
+    "main.js": "/nobelprize-app/static/js/main.229da074.js",
     "index.html": "/nobelprize-app/index.html",
-    "main.ad37d85f.css.map": "/nobelprize-app/static/css/main.ad37d85f.css.map",
-    "main.6861ab7c.js.map": "/nobelprize-app/static/js/main.6861ab7c.js.map"
+    "main.8c6cd38d.css.map": "/nobelprize-app/static/css/main.8c6cd38d.css.map",
+    "main.229da074.js.map": "/nobelprize-app/static/js/main.229da074.js.map"
   },
   "entrypoints": [
-    "static/css/main.ad37d85f.css",
-    "static/js/main.6861ab7c.js"
+    "static/css/main.8c6cd38d.css",
+    "static/js/main.229da074.js"
   ]
 }
