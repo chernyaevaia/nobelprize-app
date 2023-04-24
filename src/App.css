@@ -1,4 +1,23 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.intro {
+  display: block;
+  margin: 30px auto;
+  text-align: center;
+  max-width: 500px;
+  line-height: 30px;
+}
+
+.recommendation {
+  position: relative;
+  left: 15%;
+  margin-bottom: 20px;
+}
+
+.noResultsMessage {
+  text-align: center;
+  line-height: 30px;
 }
