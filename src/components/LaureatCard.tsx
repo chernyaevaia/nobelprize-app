@@ -1,3 +1,5 @@
+import { Button } from "@mui/joy";
+import OpenInNew from "@mui/icons-material/OpenInNew";
 import { Laureat } from "../utils/types";
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
@@ -39,13 +41,15 @@ export function LaureatCard(laureat: Laureat) {
         {laureat.nobelPrizes[0].prizeStatus}
       </li>
       <li className={styles.linkBtn}>
-        <a
-          className={styles.wikiLink}
+        <Button
+          component="a"
           href={laureat.wikipedia.english}
           target="_blank"
+          color="neutral"
+          startDecorator={<OpenInNew />}
         >
-          Open Wikipedia
-        </a>
+          Open in new tab
+        </Button>
       </li>
     </ul>
   );

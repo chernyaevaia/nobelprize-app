@@ -1,7 +1,7 @@
 import { Laureat } from "./types";
 
 export class RestApiService {
-  fetchApi<T>(url: string, method: string = "GET", headers?: Object) {
+  fetchApi(url: string, method: string = "GET", headers?: Object) {
     const params = {
       method: method,
       headers: {
@@ -18,10 +18,10 @@ export class RestApiService {
   }
 
   getLaureates = (
-    gender?: string,
-    birthContinent?: string,
-    nobelPrizeYear?: string,
-    nobelPrizeCategory?: string
+    gender?: string | null,
+    birthContinent?: string | null,
+    nobelPrizeYear?: string | null,
+    nobelPrizeCategory?: string | null
   ): Promise<Laureat[]> => {
     let awardNobelYear = +nobelPrizeYear!;
 

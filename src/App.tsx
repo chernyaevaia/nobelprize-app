@@ -22,10 +22,10 @@ function App() {
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
-    gender?: string,
-    category?: string,
-    awardYear?: string,
-    birthContinent?: string
+    gender: string | null,
+    category: string | null,
+    awardYear: string | null,
+    birthContinent: string | null
   ) => {
     setIsLoading(true);
     e.preventDefault();
@@ -40,25 +40,12 @@ function App() {
 
   return (
     <>
-      <p className="intro">
-        Welcome
-        <br />
-        Between 1901 and 2022, the Nobel Prizes were awarded 615 times to 989
-        people and organisations. <br /> Use our search form to find Nobel Prize
-        laureates.
-      </p>
       <SearchPanel onSubmitClick={handleSubmit} />
       {isIntroVisible && (
         <p className="recommendation">You might be interested:</p>
       )}
       {isLoading && <div className="loader"></div>}
       {!isLoading && <LaureatsCards laureats={laureats} />}
-      {laureats?.length && !isLoading && (
-        <p className="noResultsMessage">
-          Sorry. We couldn't find any matches for your search. <br />
-          Please, double check your search for typos or try different filters.
-        </p>
-      )}
     </>
   );
 }

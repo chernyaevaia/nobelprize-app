@@ -8,9 +8,10 @@
 
 .wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    column-gap: 20px;
 }
 
 .searchBtn {

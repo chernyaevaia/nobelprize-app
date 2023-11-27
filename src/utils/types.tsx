@@ -41,13 +41,13 @@ export interface Option {
 }
 
 export const GENDER_OPTIONS: Option[] = [
-  { label: "any", value: undefined },
+  { label: "any", value: "undefined" },
   { label: "male", value: "male" },
   { label: "female", value: "female" },
 ];
 
 export const NOBEL_PRIZE_CATEGORIES: Option[] = [
-  { label: "any", value: undefined },
+  { label: "all", value: "undefined" },
   { label: "Literature", value: "lit" },
   { label: "Physics", value: "phy" },
   { label: "Peace", value: "pea" },
@@ -57,7 +57,7 @@ export const NOBEL_PRIZE_CATEGORIES: Option[] = [
 ];
 
 export const BIRTH_CONTINENT: Option[] = [
-  { label: "any", value: undefined },
+  { label: "all", value: "undefined" },
   { label: "Africa", value: "Africa" },
   { label: "Asia", value: "Asia" },
   { label: "Europe", value: "Europe" },
