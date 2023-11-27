@@ -10,6 +10,7 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Input from "@mui/joy/Input";
 import { Button, FormLabel } from "@mui/joy";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
 
 export interface SearchPanelProps {
   onSubmitClick: (
@@ -82,7 +83,12 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             }}
           >
             {NOBEL_PRIZE_CATEGORIES.map((option) => (
-              <Option value={option.value}>{option.label}</Option>
+              <div className={styles.optionWrapper}>
+                <Option style={{ width: "280px" }} value={option.value}>
+                  <ListItemDecorator>{option.icon}</ListItemDecorator>
+                  {option.label}
+                </Option>
+              </div>
             ))}
           </Select>
         </div>

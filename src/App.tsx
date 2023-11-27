@@ -41,9 +41,6 @@ function App() {
   return (
     <>
       <SearchPanel onSubmitClick={handleSubmit} />
-      {isIntroVisible && (
-        <p className="recommendation">You might be interested:</p>
-      )}
       {isLoading && <div className="loader"></div>}
       {!isLoading && <LaureatsCards laureats={laureats} />}
     </>

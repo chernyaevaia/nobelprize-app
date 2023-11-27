@@ -1,14 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-}
-
-.intro {
-  display: block;
-  margin: 30px auto;
-  text-align: center;
-  max-width: 500px;
-  line-height: 30px;
+  box-sizing: border-box;
 }
 
 .loader {
@@ -29,12 +22,6 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-.recommendation {
-  position: relative;
-  left: 15%;
-  margin-bottom: 20px;
 }
 
 .noResultsMessage {

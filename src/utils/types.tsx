@@ -1,3 +1,6 @@
+import { ReactElement } from "react";
+import { BookOpenText, Atom, FlaskConical, AreaChart, Syringe, Globe } from 'lucide-react';
+
 export interface Laureat {
   knownName: {
     en: string;
@@ -38,6 +41,7 @@ export interface Laureat {
 export interface Option {
   label: string;
   value?: string;
+  icon?: ReactElement
 }
 
 export const GENDER_OPTIONS: Option[] = [
@@ -48,12 +52,12 @@ export const GENDER_OPTIONS: Option[] = [
 
 export const NOBEL_PRIZE_CATEGORIES: Option[] = [
   { label: "all", value: "undefined" },
-  { label: "Literature", value: "lit" },
-  { label: "Physics", value: "phy" },
-  { label: "Peace", value: "pea" },
-  { label: "Chemistry", value: "che" },
-  { label: "Physiology or Medicine", value: "med" },
-  { label: "Economic sciences", value: "eco" },
+  { label: "Literature", value: "lit", icon: <BookOpenText/>},
+  { label: "Physics", value: "phy", icon: <Atom/> },
+  { label: "Peace", value: "pea", icon: <Globe/> },
+  { label: "Chemistry", value: "che", icon: <FlaskConical/> },
+  { label: "Physiology or Medicine", value: "med", icon: <Syringe/>},
+  { label: "Economic sciences", value: "eco", icon: <AreaChart/> },
 ];
 
 export const BIRTH_CONTINENT: Option[] = [

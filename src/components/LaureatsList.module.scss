@@ -1,5 +1,8 @@
 .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 26px;
+  row-gap: 26px;
+  padding: 0 80px;
 }
