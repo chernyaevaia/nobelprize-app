@@ -1,10 +1,12 @@
 import { Button } from "@mui/joy";
-import OpenInNew from "@mui/icons-material/OpenInNew";
 import { Laureat } from "../utils/types";
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
+import  {ArrowUpRightSquare}  from 'lucide-react';
+
 
 export function LaureatCard(laureat: Laureat) {
+
   return (
     <ul className={styles.card}>
       <li>
@@ -46,9 +48,9 @@ export function LaureatCard(laureat: Laureat) {
           href={laureat.wikipedia.english}
           target="_blank"
           color="neutral"
-          startDecorator={<OpenInNew />}
+          startDecorator={<ArrowUpRightSquare />}
         >
-          Open in new tab
+          Open Wikipedia
         </Button>
       </li>
     </ul>

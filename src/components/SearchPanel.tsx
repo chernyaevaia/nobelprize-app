@@ -49,7 +49,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
           <Select
             onChange={(e, value) => setGender(value)}
             style={{ width: "200px" }}
-            variant="soft"
+            variant="outlined"
             size="lg"
             defaultValue="undefined"
             slotProps={{
@@ -71,7 +71,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
           <Select
             onChange={(e, value) => setCategory(value)}
             style={{ width: "260px" }}
-            variant="soft"
+            variant="outlined"
             size="lg"
             defaultValue="undefined"
             slotProps={{
@@ -93,7 +93,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
           <Select
             onChange={(e, value) => setBirthContinent(value)}
             style={{ width: "260px" }}
-            variant="soft"
+            variant="outlined"
             size="lg"
             defaultValue="undefined"
             slotProps={{
@@ -114,7 +114,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setAwardYear(e.target.value)}
             size="lg"
             placeholder="starting from 1901"
-            variant="soft"
+            variant="outlined"
           />
         </div>
       </div>
