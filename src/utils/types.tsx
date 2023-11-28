@@ -57,7 +57,7 @@ export const NOBEL_PRIZE_CATEGORIES: Option[] = [
   { label: "Peace", value: "pea", icon: <Globe/> },
   { label: "Chemistry", value: "che", icon: <FlaskConical/> },
   { label: "Physiology or Medicine", value: "med", icon: <Syringe/>},
-  { label: "Economic sciences", value: "eco", icon: <AreaChart/> },
+  { label: "Economic Sciences", value: "eco", icon: <AreaChart/> },
 ];
 
 export const BIRTH_CONTINENT: Option[] = [
@@ -68,5 +68,4 @@ export const BIRTH_CONTINENT: Option[] = [
   { label: "North America", value: "North America" },
   { label: "Oceania", value: "Oceania" },
   { label: "South America", value: "South America" },
-  { label: "Antarctica", value: "Antarctica" },
 ];

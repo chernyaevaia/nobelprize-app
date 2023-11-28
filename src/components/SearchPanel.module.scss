@@ -4,14 +4,22 @@
   justify-content: center;
   align-items: center;
   margin: 40px 0;
+  max-width: 800px;
 }
 
 .wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   column-gap: 20px;
+}
+
+.container1 {
+  width: 100%;
+  align-self: flex-start;
+  justify-self: start;
 }
 
 .optionWrapper {

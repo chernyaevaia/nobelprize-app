@@ -21,15 +21,26 @@ export class RestApiService {
     gender?: string | null,
     birthContinent?: string | null,
     nobelPrizeYear?: string | null,
-    nobelPrizeCategory?: string | null
-  ): Promise<Laureat[]> => {
-    let awardNobelYear = +nobelPrizeYear!;
+    yearTo?: string | null,
+    nobelPrizeCategory?: string | null,
+    birthDate?: string | null,
+    birthDateTo?: string | null,
+    deathDate?: string | null,
+    deathDateTo?: string | null,
+    deathContinent?: string | null,
 
+  ): Promise<Laureat[]> => {
     let obj = {
       gender,
       birthContinent,
-      awardNobelYear,
+      nobelPrizeYear,
+      yearTo,
       nobelPrizeCategory,
+      birthDate,
+      birthDateTo,
+      deathDate,
+      deathDateTo,
+      deathContinent,
     };
 
     let maybeQueryParams = Object.entries(obj)
