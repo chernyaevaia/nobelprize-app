@@ -36,6 +36,20 @@ export interface Laureat {
       };
     }
   ];
+  death?: {
+    date: string,
+    place: {
+      city: {
+        en: string,
+      },
+      country: {
+        en: string,
+      },
+      continent: {
+        en: string,
+      },
+    };
+  }
 }
 
 export interface Option {

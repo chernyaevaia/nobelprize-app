@@ -70,12 +70,22 @@ export function LaureatCard(laureat: Laureat) {
           }}
         />
         <li>
-          <span>Born on {" " + moment(laureat.birth.date).format("MMMM Do YYYY")} in {laureat.birth.place.city.en}, {laureat.birth.place.country.en}.</span>
+          <span>
+            Born on {" " + moment(laureat.birth.date).format("MMMM Do YYYY")} in{" "}
+            {laureat.birth.place.city.en}, {laureat.birth.place.country.en}.
+          </span>
         </li>
         <li>
-          <span>Awarded {laureat.nobelPrizes[0].dateAwarded
-            ? "on " + moment(laureat.nobelPrizes[0].dateAwarded).format("MMMM Do YYYY")
-            : "in " + laureat.nobelPrizes[0].awardYear}.</span>
+          <span>
+            Awarded{" "}
+            {laureat.nobelPrizes[0].dateAwarded
+              ? "on " +
+                moment(laureat.nobelPrizes[0].dateAwarded).format(
+                  "MMMM Do YYYY"
+                )
+              : "in " + laureat.nobelPrizes[0].awardYear}
+            .
+          </span>
         </li>
       </ul>
       <Button

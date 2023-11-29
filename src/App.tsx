@@ -21,6 +21,7 @@ function App() {
       .then(() => setIsLoading(false));
   }, []);
 
+
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
     gender: string | null,
@@ -32,15 +33,30 @@ function App() {
     birthDateTo: string | null,
     deathDate: string | null,
     deathDateTo: string | null,
-    deathContinent: string | null,
+    deathContinent: string | null
   ) => {
     e.preventDefault();
-    const yearAwardedValid =
+    const isInvalidAwardYear =
       awardYearSince &&
       (+awardYearSince < 1901 ||
         +awardYearSince > +moment(new Date()).format("YYYY"));
 
-    if (yearAwardedValid) {
+    const isInvalidBirthYear =
+      birthDate && +birthDate > +moment(new Date()).format("YYYY");
+
+    const isInvalidDeathYear =
+      deathDate && +deathDate > +moment(new Date()).format("YYYY");
+
+    if (isInvalidBirthYear) {
+      alert("Please enter correct birth year");
+      return;
+    }
+    if (isInvalidDeathYear) {
+      alert("Please enter correct death year");
+      return;
+    }
+
+    if (isInvalidAwardYear) {
       alert("Please enter correct award year");
       return;
     } else {

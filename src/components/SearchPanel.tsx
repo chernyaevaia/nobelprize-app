@@ -9,7 +9,7 @@ import styles from "./SearchPanel.module.scss";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Input from "@mui/joy/Input";
-import { Button, FormLabel } from "@mui/joy";
+import { Button, FormHelperText, FormLabel } from "@mui/joy";
 import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import moment from "moment";
 
@@ -32,27 +32,79 @@ export interface SearchPanelProps {
 export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
   const [gender, setGender] = useState<string | null>("");
   const [category, setCategory] = useState<string | null>("");
+
   const [awardYearSince, setAwardYearSince] = useState("");
   const [awardYearTo, setAwardYearTo] = useState("");
+
   const [birthDate, setBirthDate] = useState("");
   const [birthDateTo, setBirthDateTo] = useState("");
   const [deathDate, setDeathDate] = useState("");
   const [deathDateTo, setDeathDateTo] = useState("");
+
   const [birthContinent, setBirthContinent] = useState<string | null>("");
   const [deathContinent, setDeathContinent] = useState<string | null>("");
+
   const [disabled, setDisabled] = useState<boolean>(true);
 
+  const invalidDeathAfterBirth =
+    (birthDate && deathDate && +birthDate > +deathDate) ||
+    (birthDate && deathDateTo && +birthDate > +deathDateTo) ||
+    (birthDateTo && deathDate && +birthDateTo > +deathDate) ||
+    (birthDateTo && deathDateTo && +birthDateTo > +deathDateTo);
+
+  const invalidAwardAfterBirth =
+    (birthDate && awardYearSince && +birthDate > +awardYearSince) ||
+    (birthDate && awardYearTo && +birthDate > +awardYearTo) ||
+    (birthDateTo && awardYearSince && +birthDateTo > +awardYearSince) ||
+    (birthDateTo && awardYearTo && +birthDateTo > +awardYearTo);
+
+  const invalidFromToDeathDates =
+    deathDate && deathDateTo && +deathDate > +deathDateTo;
+  const invalidFromToBirthDates =
+    birthDate && birthDateTo && +birthDate > +birthDateTo;
+  const invalidFromToAwardDates =
+    awardYearSince && awardYearTo && +awardYearSince > +awardYearTo;
+  const awardYearSinceInvalid =
+    (awardYearSince.trim() !== "" && +awardYearSince < 1901) ||
+    +awardYearSince > +moment(new Date()).format("YYYY");
+
+  const birthDateInvalid = +birthDate > +moment(new Date()).format("YYYY");
+  const birthDateToInvalid = +birthDateTo > +moment(new Date()).format("YYYY");
+  const deathDateInvalid = +deathDate > +moment(new Date()).format("YYYY");
+  const deathDateToInvalid = +deathDateTo > +moment(new Date()).format("YYYY");
+
+  const hasInvalidYearInput =
+    birthDateInvalid ||
+    birthDateToInvalid ||
+    deathDateToInvalid ||
+    deathDateInvalid ||
+    awardYearSinceInvalid ||
+    invalidDeathAfterBirth ||
+    invalidAwardAfterBirth ||
+    invalidFromToDeathDates ||
+    invalidFromToBirthDates ||
+    invalidFromToAwardDates;
+
+  const formFilled =
+    gender ||
+    category ||
+    awardYearSince ||
+    birthContinent ||
+    birthDate ||
+    deathDate ||
+    deathContinent;
+
+
   useEffect(() => {
-    if (
-      gender ||
-      category ||
-      awardYearSince ||
-      birthContinent ||
-      birthDate ||
-      deathDate ||
-      deathContinent
-    ) {
+    if (hasInvalidYearInput) {
+      setDisabled(true);
+    } else {
       setDisabled(false);
+    }
+    if (formFilled && !hasInvalidYearInput) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
     }
   }, [
     gender,
@@ -62,6 +114,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
     birthDate,
     deathDate,
     deathContinent,
+    birthDateTo,
+    deathDateTo,
+    awardYearTo,
   ]);
 
   return (
@@ -145,13 +200,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             placeholder="starting from 1901"
             variant="outlined"
-            color={
-              (awardYearSince.trim() !== "" && +awardYearSince.trim() < 1901) ||
-              +awardYearSince > +moment(new Date()).format("YYYY")
-                ? "danger"
-                : "neutral"
-            }
+            color={awardYearSinceInvalid ? "danger" : "neutral"}
           />
+          <FormHelperText>"YYYY" format</FormHelperText>
         </div>
         <div>
           <FormLabel>Year Awarded (to)</FormLabel>
@@ -162,13 +213,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             placeholder="starting from 1901"
             variant="outlined"
-            color={
-              (awardYearTo.trim() !== "" && +awardYearTo.trim() < 1901) ||
-              +awardYearTo > +moment(new Date()).format("YYYY")
-                ? "danger"
-                : "neutral"
-            }
+            disabled={!awardYearSince || awardYearSinceInvalid}
           />
+          <FormHelperText>"YYYY" format</FormHelperText>
         </div>
       </div>
 
@@ -203,7 +250,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setBirthDate(e.target.value)}
             size="lg"
             variant="outlined"
+            color={birthDateInvalid ? "danger" : "neutral"}
           />
+          <FormHelperText>"YYYY" format</FormHelperText>
         </div>
         <div>
           <FormLabel>Year of Birth (to)</FormLabel>
@@ -213,7 +262,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setBirthDateTo(e.target.value)}
             size="lg"
             variant="outlined"
+            disabled={!birthDate || birthDateInvalid}
           />
+          <FormHelperText>{invalidFromToBirthDates && "check dates"}</FormHelperText>
         </div>
       </div>
 
@@ -249,7 +300,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setDeathDate(e.target.value)}
             size="lg"
             variant="outlined"
+            color={deathDateInvalid ? "danger" : "neutral"}
           />
+          <FormHelperText>"YYYY" format</FormHelperText>
         </div>
         <div>
           <FormLabel>Year of Death (to)</FormLabel>
@@ -259,7 +312,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setDeathDateTo(e.target.value)}
             size="lg"
             variant="outlined"
+            disabled={!deathDate || deathDateInvalid}
           />
+          <FormHelperText>"YYYY" format</FormHelperText>
         </div>
       </div>
       <Button
