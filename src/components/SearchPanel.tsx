@@ -5,7 +5,7 @@ import {
   NOBEL_PRIZE_CATEGORIES,
 } from "../utils/types";
 import styles from "./SearchPanel.module.scss";
-
+import { ERROR_HELPER_MESSAGES as errorMessages } from "../utils/helpers";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Input from "@mui/joy/Input";
@@ -46,6 +46,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
 
   const [disabled, setDisabled] = useState<boolean>(true);
 
+  const currentYear = +moment(new Date()).format("YYYY");
   const invalidDeathAfterBirth =
     (birthDate && deathDate && +birthDate > +deathDate) ||
     (birthDate && deathDateTo && +birthDate > +deathDateTo) ||
@@ -66,12 +67,16 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
     awardYearSince && awardYearTo && +awardYearSince > +awardYearTo;
   const awardYearSinceInvalid =
     (awardYearSince.trim() !== "" && +awardYearSince < 1901) ||
-    +awardYearSince > +moment(new Date()).format("YYYY");
+    +awardYearSince > currentYear;
 
-  const birthDateInvalid = +birthDate > +moment(new Date()).format("YYYY");
-  const birthDateToInvalid = +birthDateTo > +moment(new Date()).format("YYYY");
-  const deathDateInvalid = +deathDate > +moment(new Date()).format("YYYY");
-  const deathDateToInvalid = +deathDateTo > +moment(new Date()).format("YYYY");
+  const birthDateInvalid =
+    +birthDate > currentYear ||
+    (birthDate.trim() !== "" && birthDate.trim().length < 4);
+  const birthDateToInvalid =
+    +birthDateTo > currentYear ||
+    (birthDateTo.trim() !== "" && birthDateTo.trim().length < 4);
+  const deathDateInvalid = +deathDate > currentYear;
+  const deathDateToInvalid = +deathDateTo > currentYear;
 
   const hasInvalidYearInput =
     birthDateInvalid ||
@@ -94,6 +99,18 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
     deathDate ||
     deathContinent;
 
+  const awardToHelperText =
+    (invalidFromToAwardDates && errorMessages.birthDateFromTo) ||
+    (invalidAwardAfterBirth && errorMessages.awardBeforeBirth) ||
+    (!awardYearSince && errorMessages.awardToEnable);
+
+  const birthYearToHelperText =
+    (invalidFromToBirthDates && errorMessages.birthDateFromTo) ||
+    (!birthDate && errorMessages.birthToEnable);
+
+  const deathYearToHelperText =
+    (invalidFromToDeathDates && errorMessages.deathDateFromTo) ||
+    (!deathDate && errorMessages.deathToEnable);
 
   useEffect(() => {
     if (hasInvalidYearInput) {
@@ -140,21 +157,13 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
     >
       <div className={styles.wrapper}>
         <div className={styles.container1}>
-          <FormLabel htmlFor="gender-button" id="select-gender">
-            Gender
-          </FormLabel>
+          <FormLabel>Gender</FormLabel>
           <Select
             onChange={(e, value) => setGender(value)}
             style={{ width: "150px" }}
             variant="outlined"
             size="lg"
             defaultValue="undefined"
-            slotProps={{
-              button: {
-                id: "gender-button",
-                "aria-labelledby": "select-gender gender-button",
-              },
-            }}
           >
             {GENDER_OPTIONS.map((option) => (
               <Option value={option.value}>{option.label}</Option>
@@ -165,21 +174,13 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
 
       <div className={styles.wrapper}>
         <div>
-          <FormLabel htmlFor="category-button" id="select-category">
-            Category
-          </FormLabel>
+          <FormLabel>Category</FormLabel>
           <Select
             onChange={(e, value) => setCategory(value)}
             style={{ width: "260px" }}
             variant="outlined"
             size="lg"
             defaultValue="undefined"
-            slotProps={{
-              button: {
-                id: "category-button",
-                "aria-labelledby": "select-category category-button",
-              },
-            }}
           >
             {NOBEL_PRIZE_CATEGORIES.map((option) => (
               <div className={styles.optionWrapper}>
@@ -202,7 +203,11 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             variant="outlined"
             color={awardYearSinceInvalid ? "danger" : "neutral"}
           />
-          <FormHelperText>"YYYY" format</FormHelperText>
+          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
+            {invalidAwardAfterBirth
+              ? errorMessages.awardBeforeBirth
+              : '"YYYY" format'}
+          </FormHelperText>
         </div>
         <div>
           <FormLabel>Year Awarded (to)</FormLabel>
@@ -215,27 +220,21 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             variant="outlined"
             disabled={!awardYearSince || awardYearSinceInvalid}
           />
-          <FormHelperText>"YYYY" format</FormHelperText>
+          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
+            {awardYearTo && awardToHelperText}
+          </FormHelperText>
         </div>
       </div>
 
       <div className={styles.wrapper}>
         <div>
-          <FormLabel htmlFor="continent-button" id="select-continent">
-            Continent of Birth
-          </FormLabel>
+          <FormLabel>Continent of Birth</FormLabel>
           <Select
             onChange={(e, value) => setBirthContinent(value)}
             style={{ width: "260px" }}
             variant="outlined"
             size="lg"
             defaultValue="undefined"
-            slotProps={{
-              button: {
-                id: "continent-button",
-                "aria-labelledby": "select-continent continent-button",
-              },
-            }}
           >
             {BIRTH_CONTINENT.map((option) => (
               <Option value={option.value}>{option.label}</Option>
@@ -250,9 +249,13 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setBirthDate(e.target.value)}
             size="lg"
             variant="outlined"
-            color={birthDateInvalid ? "danger" : "neutral"}
+            color={
+              birthDateInvalid || invalidDeathAfterBirth ? "danger" : "neutral"
+            }
           />
-          <FormHelperText>"YYYY" format</FormHelperText>
+          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
+            "YYYY" format
+          </FormHelperText>
         </div>
         <div>
           <FormLabel>Year of Birth (to)</FormLabel>
@@ -263,29 +266,27 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             variant="outlined"
             disabled={!birthDate || birthDateInvalid}
+            color={
+              birthDateToInvalid || (birthDateTo && invalidDeathAfterBirth)
+                ? "danger"
+                : "neutral"
+            }
           />
-          <FormHelperText>{invalidFromToBirthDates && "check dates"}</FormHelperText>
+          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
+            {birthDateTo && birthYearToHelperText}
+          </FormHelperText>
         </div>
       </div>
 
       <div className={styles.wrapper}>
         <div>
-          <FormLabel htmlFor="deathcontinent-button" id="select-deathcontinent">
-            Continent of Death
-          </FormLabel>
+          <FormLabel>Continent of Death</FormLabel>
           <Select
             onChange={(e, value) => setDeathContinent(value)}
             style={{ width: "260px" }}
             variant="outlined"
             size="lg"
             defaultValue="undefined"
-            slotProps={{
-              button: {
-                id: "deathcontinent-button",
-                "aria-labelledby":
-                  "select-deathcontinent deathcontinent-button",
-              },
-            }}
           >
             {BIRTH_CONTINENT.map((option) => (
               <Option value={option.value}>{option.label}</Option>
@@ -302,7 +303,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             variant="outlined"
             color={deathDateInvalid ? "danger" : "neutral"}
           />
-          <FormHelperText>"YYYY" format</FormHelperText>
+          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
+            "YYYY" format
+          </FormHelperText>
         </div>
         <div>
           <FormLabel>Year of Death (to)</FormLabel>
@@ -314,7 +317,9 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             variant="outlined"
             disabled={!deathDate || deathDateInvalid}
           />
-          <FormHelperText>"YYYY" format</FormHelperText>
+          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
+            {deathDateTo && deathYearToHelperText}
+          </FormHelperText>
         </div>
       </div>
       <Button

@@ -1,4 +1,3 @@
-import { Laureat } from "../utils/types";
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
 import { Button, Card, Chip, Divider } from "@mui/joy";
@@ -12,6 +11,20 @@ import {
   Globe,
 } from "lucide-react";
 
+export interface LaureatCardProps {
+  gender: string;
+  knownName: string;
+  wikipedia: string;
+  birthDate: string;
+  birthCity: string;
+  birthCountry: string;
+  birthContinent: string;
+  awardYear: string;
+  dateAwarded: string;
+  category: string;
+  motivation: string;
+}
+
 const categoryIcons: any = {
   Literature: { icon: <BookOpenText />, color: "#910d2e" },
   Peace: { icon: <Globe />, color: "#6fc5f7" },
@@ -21,8 +34,8 @@ const categoryIcons: any = {
   "Economic Sciences": { icon: <AreaChart />, color: "#1aa343" },
 };
 
-export function LaureatCard(laureat: Laureat) {
-  const color = categoryIcons[laureat.nobelPrizes[0].category.en].color;
+export function LaureatCard(props: LaureatCardProps) {
+  const color = categoryIcons[props.category].color;
   return (
     <Card
       sx={{
@@ -33,7 +46,7 @@ export function LaureatCard(laureat: Laureat) {
       }}
     >
       <Chip
-        startDecorator={categoryIcons[laureat.nobelPrizes[0].category.en].icon}
+        startDecorator={categoryIcons[props.category].icon}
         size="sm"
         variant="solid"
         sx={{
@@ -43,16 +56,16 @@ export function LaureatCard(laureat: Laureat) {
           alignSelf: "flex-end",
         }}
       >
-        {laureat.nobelPrizes[0].category.en}
+        {props.category}
       </Chip>
       <ul>
         <li>
           <span>Name: </span>
-          {laureat.knownName.en}
+          {props.knownName}
         </li>
         <li>
           <span>Gender: </span>
-          {laureat.gender}
+          {props.gender}
         </li>
         <Divider
           sx={{
@@ -60,9 +73,7 @@ export function LaureatCard(laureat: Laureat) {
             margin: "8px 0",
           }}
         />
-        <li className={styles.motivation}>
-          {laureat.nobelPrizes[0].motivation.en}
-        </li>
+        <li className={styles.motivation}>{props.motivation}</li>
         <Divider
           sx={{
             backgroundColor: color,
@@ -71,26 +82,23 @@ export function LaureatCard(laureat: Laureat) {
         />
         <li>
           <span>
-            Born on {" " + moment(laureat.birth.date).format("MMMM Do YYYY")} in{" "}
-            {laureat.birth.place.city.en}, {laureat.birth.place.country.en}.
+            Born on {" " + moment(props.birthDate).format("MMMM Do YYYY")} in{" "}
+            {props.birthCity}, {props.birthCountry}.
           </span>
         </li>
         <li>
           <span>
             Awarded{" "}
-            {laureat.nobelPrizes[0].dateAwarded
-              ? "on " +
-                moment(laureat.nobelPrizes[0].dateAwarded).format(
-                  "MMMM Do YYYY"
-                )
-              : "in " + laureat.nobelPrizes[0].awardYear}
+            {props.dateAwarded
+              ? "on " + moment(props.dateAwarded).format("MMMM Do YYYY")
+              : "in " + props.awardYear}
             .
           </span>
         </li>
       </ul>
       <Button
         component="a"
-        href={laureat.wikipedia.english}
+        href={props.wikipedia}
         target="_blank"
         color="primary"
         startDecorator={<ArrowUpRightSquare />}

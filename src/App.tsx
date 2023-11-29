@@ -4,7 +4,6 @@ import { LaureatsCards } from "./components/LaureatsList";
 import { SearchPanel } from "./components/SearchPanel";
 import { restApiService } from "./utils/RestApiService";
 import { Laureat } from "./utils/types";
-import moment from "moment";
 
 function App() {
   const [laureats, setLaureats] = useState<Laureat[]>();
@@ -36,30 +35,7 @@ function App() {
     deathContinent: string | null
   ) => {
     e.preventDefault();
-    const isInvalidAwardYear =
-      awardYearSince &&
-      (+awardYearSince < 1901 ||
-        +awardYearSince > +moment(new Date()).format("YYYY"));
 
-    const isInvalidBirthYear =
-      birthDate && +birthDate > +moment(new Date()).format("YYYY");
-
-    const isInvalidDeathYear =
-      deathDate && +deathDate > +moment(new Date()).format("YYYY");
-
-    if (isInvalidBirthYear) {
-      alert("Please enter correct birth year");
-      return;
-    }
-    if (isInvalidDeathYear) {
-      alert("Please enter correct death year");
-      return;
-    }
-
-    if (isInvalidAwardYear) {
-      alert("Please enter correct award year");
-      return;
-    } else {
       setIsLoading(true);
       restApiService
         .getLaureates(
@@ -79,8 +55,7 @@ function App() {
           setLaureats(data);
           setIsLoading(false);
         });
-    }
-  };
+    };
 
   return (
     <div className="app-container">
