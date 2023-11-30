@@ -1,15 +1,8 @@
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
 import { Button, Card, Chip, Divider } from "@mui/joy";
-import {
-  ArrowUpRightSquare,
-  BookOpenText,
-  Atom,
-  FlaskConical,
-  AreaChart,
-  Syringe,
-  Globe,
-} from "lucide-react";
+import { ArrowUpRightSquare } from "lucide-react";
+import { CATEGORY_ICONS as categoryIcons } from "../utils/helpers";
 
 export interface LaureatCardProps {
   gender: string;
@@ -18,24 +11,23 @@ export interface LaureatCardProps {
   birthDate: string;
   birthCity: string;
   birthCountry: string;
-  birthContinent: string;
   awardYear: string;
   dateAwarded: string;
   category: string;
   motivation: string;
+  deathDate: string;
+  deathCity: string;
+  deathCountry: string;
 }
-
-const categoryIcons: any = {
-  Literature: { icon: <BookOpenText />, color: "#910d2e" },
-  Peace: { icon: <Globe />, color: "#6fc5f7" },
-  Physics: { icon: <Atom />, color: "#1d30c2" },
-  Chemistry: { icon: <FlaskConical />, color: "#8f34eb" },
-  "Physiology or Medicine": { icon: <Syringe />, color: "#3cb5a9" },
-  "Economic Sciences": { icon: <AreaChart />, color: "#1aa343" },
-};
 
 export function LaureatCard(props: LaureatCardProps) {
   const color = categoryIcons[props.category].color;
+  const pronoun = props.gender === "female" ? "She" : "He";
+
+  const formatDate = (date: string) => {
+    return moment(date).format("MMMM Do YYYY");
+  };
+
   return (
     <Card
       sx={{
@@ -67,40 +59,39 @@ export function LaureatCard(props: LaureatCardProps) {
           <span>Gender: </span>
           {props.gender}
         </li>
-        <Divider
-          sx={{
-            backgroundColor: color,
-            margin: "8px 0",
-          }}
-        />
-        <li className={styles.motivation}>{props.motivation}</li>
-        <Divider
-          sx={{
-            backgroundColor: color,
-            margin: "8px 0",
-          }}
-        />
-        <li>
-          <span>
-            Born on {" " + moment(props.birthDate).format("MMMM Do YYYY")} in{" "}
-            {props.birthCity}, {props.birthCountry}.
-          </span>
-        </li>
-        <li>
-          <span>
-            Awarded{" "}
-            {props.dateAwarded
-              ? "on " + moment(props.dateAwarded).format("MMMM Do YYYY")
-              : "in " + props.awardYear}
-            .
-          </span>
-        </li>
       </ul>
+      <Divider
+        sx={{
+          backgroundColor: color,
+          margin: "8px 0",
+        }}
+      />
+      <p className={styles.motivation}>{props.motivation}</p>
+      <Divider
+        sx={{
+          backgroundColor: color,
+          margin: "8px 0",
+        }}
+      />
+      <p>
+        {props.knownName + " "}was born on {" " + formatDate(props.birthDate)}{" "}
+        in {props.birthCity}, {props.birthCountry}.
+      </p>
+      <p>
+        {pronoun} was awarded{" "}
+        {props.dateAwarded
+          ? "on " + formatDate(props.dateAwarded)
+          : "in " + props.awardYear}
+        .
+      </p>
+      {props.deathDate && `${pronoun} died on ${formatDate(props.deathDate)}`}
+      {props.deathCity && ` in ${props.deathCity}, ${props.deathCountry}.`}
       <Button
         component="a"
         href={props.wikipedia}
         target="_blank"
         color="primary"
+        sx={{marginTop: "auto"}}
         startDecorator={<ArrowUpRightSquare />}
       >
         Open Wikipedia

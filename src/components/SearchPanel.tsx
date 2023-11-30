@@ -4,13 +4,17 @@ import {
   GENDER_OPTIONS,
   NOBEL_PRIZE_CATEGORIES,
 } from "../utils/types";
-import styles from "./SearchPanel.module.scss";
 import { ERROR_HELPER_MESSAGES as errorMessages } from "../utils/helpers";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import Input from "@mui/joy/Input";
-import { Button, FormHelperText, FormLabel } from "@mui/joy";
-import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import styles from "./SearchPanel.module.scss";
+import {
+  Button,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Option,
+  Select,
+  ListItemDecorator,
+} from "@mui/joy";
 import moment from "moment";
 
 export interface SearchPanelProps {
@@ -101,16 +105,18 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
 
   const awardToHelperText =
     (invalidFromToAwardDates && errorMessages.birthDateFromTo) ||
-    (invalidAwardAfterBirth && errorMessages.awardBeforeBirth) ||
+    (awardYearTo && invalidAwardAfterBirth && errorMessages.awardBeforeBirth) ||
     (!awardYearSince && errorMessages.awardToEnable);
 
   const birthYearToHelperText =
-    (invalidFromToBirthDates && errorMessages.birthDateFromTo) ||
+    (birthDateTo && invalidFromToBirthDates && errorMessages.birthDateFromTo) ||
     (!birthDate && errorMessages.birthToEnable);
 
   const deathYearToHelperText =
+    (deathDateTo && invalidDeathAfterBirth && errorMessages.birthAfterDeath) ||
     (invalidFromToDeathDates && errorMessages.deathDateFromTo) ||
     (!deathDate && errorMessages.deathToEnable);
+
 
   useEffect(() => {
     if (hasInvalidYearInput) {
@@ -201,12 +207,16 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             placeholder="starting from 1901"
             variant="outlined"
-            color={awardYearSinceInvalid ? "danger" : "neutral"}
+            color={
+              awardYearSinceInvalid ||
+              invalidAwardAfterBirth ||
+              invalidFromToAwardDates
+                ? "danger"
+                : "neutral"
+            }
           />
           <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
-            {invalidAwardAfterBirth
-              ? errorMessages.awardBeforeBirth
-              : '"YYYY" format'}
+            {invalidAwardAfterBirth && errorMessages.awardBeforeBirth}
           </FormHelperText>
         </div>
         <div>
@@ -218,10 +228,15 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             placeholder="starting from 1901"
             variant="outlined"
+            color={
+              awardYearTo && (invalidAwardAfterBirth || invalidFromToAwardDates)
+                ? "danger"
+                : "neutral"
+            }
             disabled={!awardYearSince || awardYearSinceInvalid}
           />
           <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
-            {awardYearTo && awardToHelperText}
+            {awardToHelperText}
           </FormHelperText>
         </div>
       </div>
@@ -250,12 +265,13 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             variant="outlined"
             color={
-              birthDateInvalid || invalidDeathAfterBirth ? "danger" : "neutral"
+              birthDateInvalid ||
+              invalidDeathAfterBirth ||
+              invalidFromToBirthDates
+                ? "danger"
+                : "neutral"
             }
           />
-          <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
-            "YYYY" format
-          </FormHelperText>
         </div>
         <div>
           <FormLabel>Year of Birth (to)</FormLabel>
@@ -267,13 +283,15 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             variant="outlined"
             disabled={!birthDate || birthDateInvalid}
             color={
-              birthDateToInvalid || (birthDateTo && invalidDeathAfterBirth)
+              birthDateToInvalid ||
+              (birthDateTo && invalidDeathAfterBirth) ||
+              invalidFromToBirthDates
                 ? "danger"
                 : "neutral"
             }
           />
           <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
-            {birthDateTo && birthYearToHelperText}
+            {birthYearToHelperText}
           </FormHelperText>
         </div>
       </div>
@@ -301,10 +319,16 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setDeathDate(e.target.value)}
             size="lg"
             variant="outlined"
-            color={deathDateInvalid ? "danger" : "neutral"}
+            color={
+              deathDateToInvalid ||
+              invalidFromToDeathDates ||
+              invalidDeathAfterBirth
+                ? "danger"
+                : "neutral"
+            }
           />
           <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
-            "YYYY" format
+            {invalidDeathAfterBirth && errorMessages.birthAfterDeath}
           </FormHelperText>
         </div>
         <div>
@@ -315,10 +339,17 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setDeathDateTo(e.target.value)}
             size="lg"
             variant="outlined"
+            color={
+              deathDateToInvalid ||
+              (deathDateTo &&
+                (invalidFromToDeathDates || invalidDeathAfterBirth))
+                ? "danger"
+                : "neutral"
+            }
             disabled={!deathDate || deathDateInvalid}
           />
           <FormHelperText style={{ maxWidth: "210px", fontSize: "12px" }}>
-            {deathDateTo && deathYearToHelperText}
+            {deathYearToHelperText}
           </FormHelperText>
         </div>
       </div>

@@ -15,9 +15,6 @@ export interface Laureat {
       country: {
         en: string;
       };
-      continent: {
-        en: string;
-      };
     };
   };
   wikipedia: {
@@ -43,9 +40,6 @@ export interface Laureat {
         en: string,
       },
       country: {
-        en: string,
-      },
-      continent: {
         en: string,
       },
     };

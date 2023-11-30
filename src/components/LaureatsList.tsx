@@ -20,12 +20,14 @@ export function LaureatsCards({ laureats }: LaureatsList) {
               birthDate={laureat.birth.date}
               birthCity={laureat.birth.place.city.en}
               birthCountry={laureat.birth.place.country.en}
-              birthContinent={laureat.birth.place.continent.en}
               awardYear={laureat.nobelPrizes[0].awardYear}
               dateAwarded={laureat.nobelPrizes[0].dateAwarded}
               motivation={laureat.nobelPrizes[0].motivation.en}
               category={laureat.nobelPrizes[0].category.en}
               wikipedia={laureat.wikipedia.english}
+              deathCity={laureat.death?.place.city ? laureat.death?.place.city.en : ""}
+              deathDate={laureat.death ? laureat.death?.date : ""}
+              deathCountry={laureat.death?.place.country ? laureat.death?.place.country.en : ""}
             />
           ))}
     </div>
