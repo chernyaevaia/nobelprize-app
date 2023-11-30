@@ -1,6 +1,6 @@
 {
   "name": "nobel-prize-app",
-  "homepage": "https://chernyaevaia.github.io/nobelprize-app",
+  "homepage": "https://chernyaevaia.github.io/nobelprize-app/index.html",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
