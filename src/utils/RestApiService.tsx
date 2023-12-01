@@ -18,6 +18,7 @@ export class RestApiService {
   }
 
   getLaureates = (
+    offset?: number | null,
     gender?: string | null,
     birthContinent?: string | null,
     nobelPrizeYear?: string | null,
@@ -31,6 +32,7 @@ export class RestApiService {
 
   ): Promise<Laureat[]> => {
     let obj = {
+      offset,
       gender,
       birthContinent,
       nobelPrizeYear,

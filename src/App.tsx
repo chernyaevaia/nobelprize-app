@@ -29,7 +29,7 @@ function App() {
   const handleFetchRandom = () => {
     setSearchedLaureats(undefined);
     restApiService
-      .getLaureates()
+      .getLaureates(Math.floor(Math.random() * 300))
       .then((data) =>
         setRandomLaureats(data.sort(() => 0.5 - Math.random()).slice(0, 6))
       )
@@ -53,6 +53,7 @@ function App() {
     setIsLoading(true);
     restApiService
       .getLaureates(
+        null,
         gender,
         birthContinent,
         awardYearSince,
