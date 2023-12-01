@@ -32,10 +32,13 @@ export interface SearchPanelProps {
     deathDateTo: string | null,
     deathContinent: string | null
   ) => void;
-  onFetchRandomLaureats: () => void
+  onFetchRandomLaureats: () => void;
 }
 
-export function SearchPanel({ onSubmitClick, onFetchRandomLaureats }: SearchPanelProps) {
+export function SearchPanel({
+  onSubmitClick,
+  onFetchRandomLaureats,
+}: SearchPanelProps) {
   const [gender, setGender] = useState<string | null>("");
   const [category, setCategory] = useState<string | null>("");
 
@@ -118,7 +121,6 @@ export function SearchPanel({ onSubmitClick, onFetchRandomLaureats }: SearchPane
     (deathDateTo && invalidDeathAfterBirth && errorMessages.birthAfterDeath) ||
     (invalidFromToDeathDates && errorMessages.deathDateFromTo) ||
     (!deathDate && errorMessages.deathToEnable);
-
 
   useEffect(() => {
     if (hasInvalidYearInput) {
@@ -382,15 +384,6 @@ export function SearchPanel({ onSubmitClick, onFetchRandomLaureats }: SearchPane
       </div>
       <div className={styles.btnContainer}>
         <Button
-          type="submit"
-          color="neutral"
-          variant="solid"
-          size="lg"
-          disabled={disabled}
-        >
-          Search
-        </Button>
-        <Button
           color="neutral"
           variant="solid"
           size="lg"
@@ -399,8 +392,22 @@ export function SearchPanel({ onSubmitClick, onFetchRandomLaureats }: SearchPane
         >
           Clear all
         </Button>
-        <Button variant="soft" startDecorator={<Dices />} size="lg" onClick={() => onFetchRandomLaureats()}>
+        <Button
+          variant="soft"
+          startDecorator={<Dices />}
+          size="lg"
+          onClick={() => onFetchRandomLaureats()}
+        >
           Random result
+        </Button>
+        <Button
+          type="submit"
+          color="neutral"
+          variant="solid"
+          size="lg"
+          disabled={disabled}
+        >
+          Search
         </Button>
       </div>
     </form>
