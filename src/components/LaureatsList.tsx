@@ -8,18 +8,19 @@ export interface LaureatsList {
 
 export function LaureatsCards({ laureats }: LaureatsList) {
   return (
-    <div className={styles.wrapper}>
+    <div
+    className={styles.wrapper}>
       {laureats &&
         laureats
-          .filter((l) => l.knownName && l.birth.place)
-          .map((laureat) => (
-            <LaureatCard
+        .filter((l) => l.knownName && l.birth.place)
+        .map((laureat, idx) => (
+          <LaureatCard
               key={laureat.wikipedia.english}
               gender={laureat.gender}
               knownName={laureat.knownName.en}
               birthDate={laureat.birth.date}
-              birthCity={laureat.birth.place.city.en}
-              birthCountry={laureat.birth.place.country.en}
+              birthCity={laureat.birth?.place.city ? laureat.birth?.place.city.en : ""}
+              birthCountry={laureat.birth?.place.country ? laureat.birth?.place.country.en : ""}
               awardYear={laureat.nobelPrizes[0].awardYear}
               dateAwarded={laureat.nobelPrizes[0].dateAwarded}
               motivation={laureat.nobelPrizes[0].motivation.en}

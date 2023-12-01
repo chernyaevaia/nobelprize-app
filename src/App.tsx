@@ -4,22 +4,36 @@ import { LaureatsCards } from "./components/LaureatsList";
 import { SearchPanel } from "./components/SearchPanel";
 import { restApiService } from "./utils/RestApiService";
 import { Laureat } from "./utils/types";
+import { Typography, CircularProgress } from "@mui/joy";
 
 function App() {
-  const [laureats, setLaureats] = useState<Laureat[]>();
-  const [isIntroVisible, setIntroVisible] = useState<boolean>(true);
+  const [randomLaureats, setRandomLaureats] = useState<Laureat[]>();
+  const [searchedLaureats, setSearchedLaureats] = useState<Laureat[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isNotFoundMessage, setNotFoundMessage] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (searchedLaureats?.length === 0) {
+      setNotFoundMessage(true);
+    } else {
+      setNotFoundMessage(false);
+    }
+  }, [searchedLaureats]);
 
   useEffect(() => {
     setIsLoading(true);
+    handleFetchRandom();
+  }, []);
+
+  const handleFetchRandom = () => {
+    setSearchedLaureats(undefined)
     restApiService
       .getLaureates()
       .then((data) =>
-        setLaureats(data.sort(() => 0.5 - Math.random()).slice(0, 6))
+        setRandomLaureats(data.sort(() => 0.5 - Math.random()).slice(0, 6))
       )
       .then(() => setIsLoading(false));
-  }, []);
-
+  };
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
@@ -35,33 +49,48 @@ function App() {
     deathContinent: string | null
   ) => {
     e.preventDefault();
-
-      setIsLoading(true);
-      restApiService
-        .getLaureates(
-          gender,
-          birthContinent,
-          awardYearSince,
-          awardYearTo,
-          category,
-          birthDate,
-          birthDateTo,
-          deathDate,
-          deathDateTo,
-          deathContinent
-        )
-        .then((data) => {
-          setIntroVisible(false);
-          setLaureats(data);
-          setIsLoading(false);
-        });
-    };
+    setIsLoading(true);
+    restApiService
+      .getLaureates(
+        gender,
+        birthContinent,
+        awardYearSince,
+        awardYearTo,
+        category,
+        birthDate,
+        birthDateTo,
+        deathDate,
+        deathDateTo,
+        deathContinent
+      )
+      .then((data) => {
+        setSearchedLaureats(data);
+        setIsLoading(false);
+      });
+  };
 
   return (
     <div className="app-container">
-      <SearchPanel onSubmitClick={handleSubmit} />
-      {isLoading && <div className="loader"></div>}
-      {!isLoading && <LaureatsCards laureats={laureats} />}
+      <SearchPanel
+        onSubmitClick={handleSubmit}
+        onFetchRandomLaureats={handleFetchRandom}
+      />
+      {isNotFoundMessage && (
+        <>
+          <Typography level="body-lg">
+            We couldn't find any matches for your search parameters.
+          </Typography>
+          <Typography level="body-lg">
+            Please, double check your search or try different search parameters.
+          </Typography>
+        </>
+      )}
+      {isLoading && <CircularProgress variant="solid" />}
+      {!isLoading && (
+        <LaureatsCards
+          laureats={searchedLaureats ? searchedLaureats : randomLaureats}
+        />
+      )}
     </div>
   );
 }

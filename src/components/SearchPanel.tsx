@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import {
-  BIRTH_CONTINENT,
+  CONTINENTS,
   GENDER_OPTIONS,
   NOBEL_PRIZE_CATEGORIES,
 } from "../utils/types";
@@ -16,6 +16,7 @@ import {
   ListItemDecorator,
 } from "@mui/joy";
 import moment from "moment";
+import { Dices } from "lucide-react";
 
 export interface SearchPanelProps {
   onSubmitClick: (
@@ -31,9 +32,10 @@ export interface SearchPanelProps {
     deathDateTo: string | null,
     deathContinent: string | null
   ) => void;
+  onFetchRandomLaureats: () => void
 }
 
-export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
+export function SearchPanel({ onSubmitClick, onFetchRandomLaureats }: SearchPanelProps) {
   const [gender, setGender] = useState<string | null>("");
   const [category, setCategory] = useState<string | null>("");
 
@@ -142,6 +144,19 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
     awardYearTo,
   ]);
 
+  const onReset = () => {
+    setAwardYearSince("");
+    setAwardYearTo("");
+    setBirthContinent("");
+    setBirthDate("");
+    setBirthDateTo("");
+    setDeathDate("");
+    setDeathDateTo("");
+    setGender("");
+    setDeathContinent("");
+    setCategory("");
+  };
+
   return (
     <form
       className={styles.container}
@@ -169,10 +184,12 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             style={{ width: "150px" }}
             variant="outlined"
             size="lg"
-            defaultValue="undefined"
+            value={gender}
           >
             {GENDER_OPTIONS.map((option) => (
-              <Option value={option.value}>{option.label}</Option>
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
             ))}
           </Select>
         </div>
@@ -186,10 +203,10 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             style={{ width: "260px" }}
             variant="outlined"
             size="lg"
-            defaultValue="undefined"
+            value={category}
           >
             {NOBEL_PRIZE_CATEGORIES.map((option) => (
-              <div className={styles.optionWrapper}>
+              <div key={option.value} className={styles.optionWrapper}>
                 <Option style={{ width: "280px" }} value={option.value}>
                   <ListItemDecorator>{option.icon}</ListItemDecorator>
                   {option.label}
@@ -207,6 +224,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             placeholder="starting from 1901"
             variant="outlined"
+            value={awardYearSince}
             color={
               awardYearSinceInvalid ||
               invalidAwardAfterBirth ||
@@ -228,6 +246,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             size="lg"
             placeholder="starting from 1901"
             variant="outlined"
+            value={awardYearTo}
             color={
               awardYearTo && (invalidAwardAfterBirth || invalidFromToAwardDates)
                 ? "danger"
@@ -249,10 +268,12 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             style={{ width: "260px" }}
             variant="outlined"
             size="lg"
-            defaultValue="undefined"
+            value={birthContinent}
           >
-            {BIRTH_CONTINENT.map((option) => (
-              <Option value={option.value}>{option.label}</Option>
+            {CONTINENTS.map((option) => (
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
             ))}
           </Select>
         </div>
@@ -264,6 +285,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setBirthDate(e.target.value)}
             size="lg"
             variant="outlined"
+            value={birthDate}
             color={
               birthDateInvalid ||
               invalidDeathAfterBirth ||
@@ -281,6 +303,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setBirthDateTo(e.target.value)}
             size="lg"
             variant="outlined"
+            value={birthDateTo}
             disabled={!birthDate || birthDateInvalid}
             color={
               birthDateToInvalid ||
@@ -303,11 +326,13 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e, value) => setDeathContinent(value)}
             style={{ width: "260px" }}
             variant="outlined"
+            value={deathContinent}
             size="lg"
-            defaultValue="undefined"
           >
-            {BIRTH_CONTINENT.map((option) => (
-              <Option value={option.value}>{option.label}</Option>
+            {CONTINENTS.map((option) => (
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
             ))}
           </Select>
         </div>
@@ -319,6 +344,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setDeathDate(e.target.value)}
             size="lg"
             variant="outlined"
+            value={deathDate}
             color={
               deathDateToInvalid ||
               invalidFromToDeathDates ||
@@ -339,6 +365,7 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
             onChange={(e) => setDeathDateTo(e.target.value)}
             size="lg"
             variant="outlined"
+            value={deathDateTo}
             color={
               deathDateToInvalid ||
               (deathDateTo &&
@@ -353,15 +380,29 @@ export function SearchPanel({ onSubmitClick }: SearchPanelProps) {
           </FormHelperText>
         </div>
       </div>
-      <Button
-        type="submit"
-        color="neutral"
-        variant="solid"
-        size="lg"
-        disabled={disabled}
-      >
-        Search
-      </Button>
+      <div className={styles.btnContainer}>
+        <Button
+          type="submit"
+          color="neutral"
+          variant="solid"
+          size="lg"
+          disabled={disabled}
+        >
+          Search
+        </Button>
+        <Button
+          color="neutral"
+          variant="solid"
+          size="lg"
+          onClick={() => onReset()}
+          disabled={!formFilled}
+        >
+          Clear all
+        </Button>
+        <Button variant="soft" startDecorator={<Dices />} size="lg" onClick={() => onFetchRandomLaureats()}>
+          Random result
+        </Button>
+      </div>
     </form>
   );
 }

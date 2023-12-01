@@ -53,13 +53,13 @@ export interface Option {
 }
 
 export const GENDER_OPTIONS: Option[] = [
-  { label: "any", value: "undefined" },
+  { label: "any", value: "" },
   { label: "male", value: "male" },
   { label: "female", value: "female" },
 ];
 
 export const NOBEL_PRIZE_CATEGORIES: Option[] = [
-  { label: "all", value: "undefined" },
+  { label: "all", value: "" },
   { label: "Literature", value: "lit", icon: <BookOpenText/>},
   { label: "Physics", value: "phy", icon: <Atom/> },
   { label: "Peace", value: "pea", icon: <Globe/> },
@@ -68,12 +68,13 @@ export const NOBEL_PRIZE_CATEGORIES: Option[] = [
   { label: "Economic Sciences", value: "eco", icon: <AreaChart/> },
 ];
 
-export const BIRTH_CONTINENT: Option[] = [
-  { label: "all", value: "undefined" },
+export const CONTINENTS: Option[] = [
+  { label: "all", value: "" },
   { label: "Africa", value: "Africa" },
   { label: "Asia", value: "Asia" },
   { label: "Europe", value: "Europe" },
   { label: "North America", value: "North America" },
   { label: "Oceania", value: "Oceania" },
   { label: "South America", value: "South America" },
+  { label: "Antarctica", value: "Antarctica" },
 ];

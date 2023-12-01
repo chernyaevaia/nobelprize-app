@@ -59,6 +59,11 @@ export function LaureatCard(props: LaureatCardProps) {
           <span>Gender: </span>
           {props.gender}
         </li>
+        <li>
+          <span>Years of Life: </span>
+          {moment(props.birthDate).format("YYYY")} —{" "}
+          {props.deathDate ? moment(props.deathDate).format("YYYY") : "now"}
+        </li>
       </ul>
       <Divider
         sx={{
@@ -91,7 +96,7 @@ export function LaureatCard(props: LaureatCardProps) {
         href={props.wikipedia}
         target="_blank"
         color="primary"
-        sx={{marginTop: "auto"}}
+        sx={{ marginTop: "auto" }}
         startDecorator={<ArrowUpRightSquare />}
       >
         Open Wikipedia
