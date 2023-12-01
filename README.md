@@ -1,3 +1,6 @@
+To start this app locally, clone the repository, run <i>npm install</i> to install dependencies and then <i>npm start</i>.
+
+
 In this app you can search Nobel prize laureats by different parameters, including gender, category, years of life, years awarded and continent of origin.
 
 
