@@ -25,8 +25,12 @@ export function LaureatCard(props: LaureatCardProps) {
   const pronoun = props.gender === "female" ? "She" : "He";
 
   const formatDate = (date: string) => {
-    return moment(date).format("MMMM Do YYYY");
+    return moment(date).format("MMMM Do YYYY") === "Invalid date"
+      ? `in ${props.birthDate.slice(0, 4)}`
+      : `on ${moment(date).format("MMMM Do YYYY")}`;
   };
+
+  console.log(moment(props.birthDate).format("YYYY"));
 
   return (
     <Card
@@ -61,8 +65,10 @@ export function LaureatCard(props: LaureatCardProps) {
         </li>
         <li>
           <span>Years of Life: </span>
-          {moment(props.birthDate).format("YYYY")} —{" "}
-          {props.deathDate ? moment(props.deathDate).format("YYYY") : "now"}
+          {moment(props.birthDate).format("YYYY") === "Invalid date"
+            ? props.birthDate.slice(0, 4)
+            : moment(props.birthDate).format("YYYY")}{" "}
+          — {props.deathDate ? moment(props.deathDate).format("YYYY") : "now"}
         </li>
       </ul>
       <Divider
@@ -79,8 +85,8 @@ export function LaureatCard(props: LaureatCardProps) {
         }}
       />
       <p>
-        {props.knownName + " "}was born on {" " + formatDate(props.birthDate)}{" "}
-        in {props.birthCity}, {props.birthCountry}.
+        {props.knownName + " "}was born {" " + formatDate(props.birthDate)} in{" "}
+        {props.birthCity}, {props.birthCountry}.
       </p>
       <p>
         {pronoun} was awarded{" "}
