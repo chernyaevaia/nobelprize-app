@@ -280,7 +280,7 @@ export function SearchPanel({
           </Select>
         </div>
         <div>
-          <FormLabel>Year of Birth (from)</FormLabel>
+          <FormLabel>Year of Birth</FormLabel>
           <Input
             style={{ width: "210px" }}
             type="number"
@@ -298,7 +298,7 @@ export function SearchPanel({
           />
         </div>
         <div>
-          <FormLabel>Year of Birth (to)</FormLabel>
+          <FormLabel>Year of Birth (until)</FormLabel>
           <Input
             style={{ width: "210px" }}
             type="number"
@@ -339,7 +339,7 @@ export function SearchPanel({
           </Select>
         </div>
         <div>
-          <FormLabel>Year of Death (from)</FormLabel>
+          <FormLabel>Year of Death</FormLabel>
           <Input
             style={{ width: "210px" }}
             type="number"
@@ -360,7 +360,7 @@ export function SearchPanel({
           </FormHelperText>
         </div>
         <div>
-          <FormLabel>Year of Death (to)</FormLabel>
+          <FormLabel>Year of Death (until)</FormLabel>
           <Input
             style={{ width: "210px" }}
             type="number"

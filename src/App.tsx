@@ -5,7 +5,6 @@ import { SearchPanel } from "./components/SearchPanel";
 import { restApiService } from "./utils/RestApiService";
 import { Laureat } from "./utils/types";
 import { Typography, CircularProgress } from "@mui/joy";
-//import Logo from "./nobel_logo.svg"
 
 function App() {
   const [randomLaureats, setRandomLaureats] = useState<Laureat[]>();

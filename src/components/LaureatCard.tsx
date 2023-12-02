@@ -30,7 +30,6 @@ export function LaureatCard(props: LaureatCardProps) {
       : `on ${moment(date).format("MMMM Do YYYY")}`;
   };
 
-  console.log(moment(props.birthDate).format("YYYY"));
 
   return (
     <Card
