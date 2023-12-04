@@ -218,7 +218,7 @@ export function SearchPanel({
           </Select>
         </div>
         <div>
-          <FormLabel>Year Awarded (from)</FormLabel>
+          <FormLabel>Year Awarded</FormLabel>
           <Input
             type="number"
             style={{ width: "210px" }}
@@ -240,7 +240,7 @@ export function SearchPanel({
           </FormHelperText>
         </div>
         <div>
-          <FormLabel>Year Awarded (to)</FormLabel>
+          <FormLabel>Year Awarded (until)</FormLabel>
           <Input
             type="number"
             style={{ width: "210px" }}
