@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import "./App.css";
-import { LaureatsCards } from "./components/LaureatsList";
+import { LaureatList } from "./components/LaureatList";
 import { SearchPanel } from "./components/SearchPanel";
 import { restApiService } from "./utils/RestApiService";
 import { Laureat } from "./utils/types";
@@ -8,17 +8,17 @@ import { Typography, CircularProgress } from "@mui/joy";
 
 function App() {
   const [randomLaureats, setRandomLaureats] = useState<Laureat[]>();
-  const [searchedLaureats, setSearchedLaureats] = useState<Laureat[]>();
+  const [userRequestedLaureats, setUserRequestedLaureats] = useState<Laureat[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isNotFoundMessage, setNotFoundMessage] = useState<boolean>(false);
 
   useEffect(() => {
-    if (searchedLaureats?.length === 0) {
+    if (userRequestedLaureats?.length === 0) {
       setNotFoundMessage(true);
     } else {
       setNotFoundMessage(false);
     }
-  }, [searchedLaureats]);
+  }, [userRequestedLaureats]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -26,13 +26,17 @@ function App() {
   }, []);
 
   const handleFetchRandom = () => {
-    setSearchedLaureats(undefined);
+    setUserRequestedLaureats(undefined);
     restApiService
       .getLaureates(Math.floor(Math.random() * 300))
       .then((data) =>
         setRandomLaureats(data.sort(() => 0.5 - Math.random()).slice(0, 6))
       )
       .then(() => setIsLoading(false));
+  };
+
+  const getFavLaureates = () => {
+    setUserRequestedLaureats(JSON.parse(localStorage.getItem("favs")!));
   };
 
   const handleSubmit = (
@@ -65,7 +69,7 @@ function App() {
         deathContinent
       )
       .then((data) => {
-        setSearchedLaureats(data);
+        setUserRequestedLaureats(data);
         setIsLoading(false);
       });
   };
@@ -82,6 +86,7 @@ function App() {
         <SearchPanel
           onSubmitClick={handleSubmit}
           onFetchRandomLaureats={handleFetchRandom}
+          onFetchFavLaureats={getFavLaureates}
         />
         {isNotFoundMessage && (
           <>
@@ -96,8 +101,8 @@ function App() {
         )}
         {isLoading && <CircularProgress variant="solid" />}
         {!isLoading && (
-          <LaureatsCards
-            laureats={searchedLaureats ? searchedLaureats : randomLaureats}
+          <LaureatList
+            laureats={userRequestedLaureats ? userRequestedLaureats : randomLaureats}
           />
         )}
       </div>

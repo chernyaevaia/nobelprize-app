@@ -1,35 +1,45 @@
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
-import { Button, Card, Chip, Divider } from "@mui/joy";
-import { ArrowUpRightSquare } from "lucide-react";
+import { Button, Card, Chip, Divider, IconButton } from "@mui/joy";
+import { ArrowUpRightSquare, Heart } from "lucide-react";
 import { CATEGORY_ICONS as categoryIcons } from "../utils/helpers";
+import { Laureat } from "../utils/types";
 
 export interface LaureatCardProps {
-  gender: string;
-  knownName: string;
-  wikipedia: string;
-  birthDate: string;
-  birthCity: string;
-  birthCountry: string;
-  awardYear: string;
-  dateAwarded: string;
-  category: string;
-  motivation: string;
-  deathDate: string;
-  deathCity: string;
-  deathCountry: string;
+  laureat: Laureat;
+  toggleFavs: (laureat: Laureat) => void;
 }
 
-export function LaureatCard(props: LaureatCardProps) {
-  const color = categoryIcons[props.category].color;
-  const pronoun = props.gender === "female" ? "She" : "He";
+export function LaureatCard({ laureat, toggleFavs }: LaureatCardProps) {
+  const gender = laureat.gender;
+  const knownName = laureat.knownName.en;
+  const birthDate = laureat.birth.date;
+  const birthCity = laureat.birth?.place.city
+    ? laureat.birth?.place.city.en
+    : "";
+  const birthCountry = laureat.birth?.place.country
+    ? laureat.birth?.place.country.en
+    : "";
+  const awardYear = laureat.nobelPrizes[0].awardYear;
+  const dateAwarded = laureat.nobelPrizes[0].dateAwarded;
+  const motivation = laureat.nobelPrizes[0].motivation.en;
+  const category = laureat.nobelPrizes[0].category.en;
+  const wikipediaLink = laureat.wikipedia.english;
+  const deathCity = laureat.death?.place.city
+    ? laureat.death?.place.city.en
+    : "";
+  const deathDate = laureat.death ? laureat.death?.date : "";
+  const deathCountry = laureat.death?.place.country
+    ? laureat.death?.place.country.en
+    : "";
+  const color = categoryIcons[category].color;
+  const pronoun = gender === "female" ? "She" : "He";
 
   const formatDate = (date: string) => {
     return moment(date).format("MMMM Do YYYY") === "Invalid date"
-      ? `in ${props.birthDate.slice(0, 4)}`
+      ? `in ${birthDate.slice(0, 4)}`
       : `on ${moment(date).format("MMMM Do YYYY")}`;
   };
-
 
   return (
     <Card
@@ -41,7 +51,7 @@ export function LaureatCard(props: LaureatCardProps) {
       }}
     >
       <Chip
-        startDecorator={categoryIcons[props.category].icon}
+        startDecorator={categoryIcons[category].icon}
         size="sm"
         variant="solid"
         sx={{
@@ -51,23 +61,23 @@ export function LaureatCard(props: LaureatCardProps) {
           alignSelf: "flex-end",
         }}
       >
-        {props.category}
+        {category}
       </Chip>
       <ul>
         <li>
           <span>Name: </span>
-          {props.knownName}
+          {knownName}
         </li>
         <li>
           <span>Gender: </span>
-          {props.gender}
+          {gender}
         </li>
         <li>
           <span>Years of Life: </span>
-          {moment(props.birthDate).format("YYYY") === "Invalid date"
-            ? props.birthDate.slice(0, 4)
-            : moment(props.birthDate).format("YYYY")}{" "}
-          — {props.deathDate ? moment(props.deathDate).format("YYYY") : "now"}
+          {moment(birthDate).format("YYYY") === "Invalid date"
+            ? birthDate.slice(0, 4)
+            : moment(birthDate).format("YYYY")}{" "}
+          — {deathDate ? moment(deathDate).format("YYYY") : "now"}
         </li>
       </ul>
       <Divider
@@ -76,7 +86,7 @@ export function LaureatCard(props: LaureatCardProps) {
           margin: "8px 0",
         }}
       />
-      <p className={styles.motivation}>{props.motivation}</p>
+      <p className={styles.motivation}>{motivation}</p>
       <Divider
         sx={{
           backgroundColor: color,
@@ -84,28 +94,35 @@ export function LaureatCard(props: LaureatCardProps) {
         }}
       />
       <p>
-        {props.knownName + " "}was born {" " + formatDate(props.birthDate)} in{" "}
-        {props.birthCity}, {props.birthCountry}.
+        {knownName + " "}was born {" " + formatDate(birthDate)} in {birthCity},{" "}
+        {birthCountry}.
       </p>
       <p>
         {pronoun} was awarded{" "}
-        {props.dateAwarded
-          ? "on " + formatDate(props.dateAwarded)
-          : "in " + props.awardYear}
-        .
+        {dateAwarded ? "on " + formatDate(dateAwarded) : "in " + awardYear}.
       </p>
-      {props.deathDate && `${pronoun} died on ${formatDate(props.deathDate)}`}
-      {props.deathCity && ` in ${props.deathCity}, ${props.deathCountry}.`}
-      <Button
-        component="a"
-        href={props.wikipedia}
-        target="_blank"
-        color="primary"
-        sx={{ marginTop: "auto" }}
-        startDecorator={<ArrowUpRightSquare />}
+      {deathDate && `${pronoun} died on ${formatDate(deathDate)}`}
+      {deathCity && ` in ${deathCity}, ${deathCountry}.`}
+      <div
+        style={{
+          marginTop: "auto",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
-        Open Wikipedia
-      </Button>
+        <Button
+          component="a"
+          href={wikipediaLink}
+          target="_blank"
+          color="primary"
+          startDecorator={<ArrowUpRightSquare />}
+        >
+          Open Wikipedia
+        </Button>
+        <IconButton variant="soft" onClick={() => toggleFavs(laureat)}>
+          <Heart />
+        </IconButton>
+      </div>
     </Card>
   );
 }

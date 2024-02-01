@@ -16,7 +16,7 @@ import {
   ListItemDecorator,
 } from "@mui/joy";
 import moment from "moment";
-import { Dices } from "lucide-react";
+import { Dices, Heart } from "lucide-react";
 
 export interface SearchPanelProps {
   onSubmitClick: (
@@ -33,11 +33,13 @@ export interface SearchPanelProps {
     deathContinent: string | null
   ) => void;
   onFetchRandomLaureats: () => void;
+  onFetchFavLaureats: () => void;
 }
 
 export function SearchPanel({
   onSubmitClick,
   onFetchRandomLaureats,
+  onFetchFavLaureats,
 }: SearchPanelProps) {
   const [gender, setGender] = useState<string | null>("");
   const [category, setCategory] = useState<string | null>("");
@@ -158,6 +160,7 @@ export function SearchPanel({
     setDeathContinent("");
     setCategory("");
   };
+
 
   return (
     <form
@@ -383,6 +386,9 @@ export function SearchPanel({
         </div>
       </div>
       <div className={styles.btnContainer}>
+        <Button onClick={() => onFetchFavLaureats()} variant="soft" startDecorator={<Heart />} size="lg">
+          Favorites
+        </Button>
         <Button
           color="neutral"
           variant="solid"

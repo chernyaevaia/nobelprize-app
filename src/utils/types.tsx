@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import { BookOpenText, Atom, FlaskConical, AreaChart, Syringe, Globe } from 'lucide-react';
 
 export interface Laureat {
+  id: number;
   knownName: {
     en: string;
   };
