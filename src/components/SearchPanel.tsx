@@ -161,7 +161,6 @@ export function SearchPanel({
     setCategory("");
   };
 
-
   return (
     <form
       className={styles.container}
@@ -386,17 +385,23 @@ export function SearchPanel({
         </div>
       </div>
       <div className={styles.btnContainer}>
-        <Button onClick={() => onFetchFavLaureats()} variant="soft" startDecorator={<Heart />} size="lg">
+        <Button
+          onClick={() => onFetchFavLaureats()}
+          variant="soft"
+          startDecorator={<Heart />}
+          size="lg"
+        >
           Favorites
         </Button>
+
         <Button
+          type="submit"
           color="neutral"
           variant="solid"
           size="lg"
-          onClick={() => onReset()}
-          disabled={!formFilled}
+          disabled={disabled}
         >
-          Clear all
+          Search
         </Button>
         <Button
           variant="soft"
@@ -407,13 +412,13 @@ export function SearchPanel({
           Random result
         </Button>
         <Button
-          type="submit"
           color="neutral"
           variant="solid"
           size="lg"
-          disabled={disabled}
+          onClick={() => onReset()}
+          disabled={!formFilled}
         >
-          Search
+          Clear all
         </Button>
       </div>
     </form>
