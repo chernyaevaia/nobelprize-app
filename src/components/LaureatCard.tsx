@@ -1,16 +1,17 @@
 import styles from "./LaureatCard.module.scss";
 import moment from "moment";
 import { Button, Card, Chip, Divider, IconButton } from "@mui/joy";
-import { ArrowUpRightSquare, Heart } from "lucide-react";
+import { ArrowUpRightSquare, Heart, HeartOff } from "lucide-react";
 import { CATEGORY_ICONS as categoryIcons } from "../utils/helpers";
 import { Laureat } from "../utils/types";
 
 export interface LaureatCardProps {
   laureat: Laureat;
   toggleFavs: (laureat: Laureat) => void;
+  isFav: boolean;
 }
 
-export function LaureatCard({ laureat, toggleFavs }: LaureatCardProps) {
+export function LaureatCard({ laureat, toggleFavs, isFav }: LaureatCardProps) {
   const gender = laureat.gender;
   const knownName = laureat.knownName.en;
   const birthDate = laureat.birth.date;
@@ -120,7 +121,7 @@ export function LaureatCard({ laureat, toggleFavs }: LaureatCardProps) {
           Open Wikipedia
         </Button>
         <IconButton variant="soft" onClick={() => toggleFavs(laureat)}>
-          <Heart />
+          {isFav ? <HeartOff /> : <Heart />}
         </IconButton>
       </div>
     </Card>

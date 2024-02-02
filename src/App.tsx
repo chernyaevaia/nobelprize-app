@@ -7,7 +7,7 @@ import { Laureat } from "./utils/types";
 import { Typography, CircularProgress } from "@mui/joy";
 
 function App() {
-  const [randomLaureats, setRandomLaureats] = useState<Laureat[]>();
+  const [randomLaureats, setRandomLaureats] = useState<Laureat[]>([]);
   const [userRequestedLaureats, setUserRequestedLaureats] = useState<Laureat[]>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isNotFoundMessage, setNotFoundMessage] = useState<boolean>(false);

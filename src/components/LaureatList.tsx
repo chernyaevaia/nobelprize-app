@@ -4,7 +4,7 @@ import styles from "./LaureatList.module.scss";
 import { useState } from "react";
 
 export interface ILaureatList {
-  laureats?: Laureat[];
+  laureats: Laureat[];
 }
 
 export function LaureatList({ laureats }: ILaureatList) {
@@ -12,7 +12,7 @@ export function LaureatList({ laureats }: ILaureatList) {
     JSON.parse(localStorage.getItem("favs") || "[]")
   );
 
-  const toggleFavs = (laureat: Laureat) => {
+  function toggleFavs(laureat: Laureat) {
     const isAdded = storageItems.find(
       (item: Laureat) => item.id === laureat.id
     );
@@ -27,7 +27,14 @@ export function LaureatList({ laureats }: ILaureatList) {
       setStorageItems(newStorageItem);
       localStorage.setItem("favs", JSON.stringify(newStorageItem));
     }
-  };
+  }
+
+  function isFav(id: number) {
+    if (storageItems.find((item: Laureat) => item.id === id)) {
+      return true;
+    }
+    return false;
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -39,6 +46,7 @@ export function LaureatList({ laureats }: ILaureatList) {
               key={laureat.wikipedia.english}
               laureat={laureat}
               toggleFavs={toggleFavs}
+              isFav={isFav(laureat.id)}
             />
           ))}
     </div>
