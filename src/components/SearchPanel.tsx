@@ -146,6 +146,8 @@ export function SearchPanel({
     birthDateTo,
     deathDateTo,
     awardYearTo,
+    hasInvalidYearInput,
+    formFilled,
   ]);
 
   const onReset = () => {
@@ -407,7 +409,10 @@ export function SearchPanel({
           variant="soft"
           startDecorator={<Dices />}
           size="lg"
-          onClick={() => onFetchRandomLaureats()}
+          onClick={() => {
+            onFetchRandomLaureats();
+            onReset();
+          }}
         >
           Random result
         </Button>
